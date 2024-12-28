@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en-US"><head>
+<meta charset="UTF-8" />
+
+<title>Fascism News Tracker</title>
+
+<!-- Import a CSS stylesheet to style the page. -->
+<link href="{{url_for('static', filename='style.css') }}" rel="stylesheet" />
+
+<script> var articles={{articles}}; </script>
+
+
+<!-- TODO: We will need to use POST to grab the value selected by user
+     via the drop down, it will be sent to server and the page will change?-->
+</head><body>
+   <h1>Today's News</h1>
+<!-- Parse through the json data and place in a table? this can 
+ be achived through jinja2 for loop logic, currently this just spits
+ the entire json out line by line-->
+   <div class="article-container" id="article"> 
+     <!-- Output the articles in tabular form
+      Set up of table headers befor eiterating through the dict -->
+      <table>
+         <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Author</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Url</th>
+            <th scope="col">Url to image</th>
+            <th scope="col">Published At</th>
+            <th scope="col">Content</th>
+            <th scope="col">Similarity Score</th>
+          </tr>
+         {% for dict_item in articles["articles"] %}
+            <tr>
+               {% for key, value in dict_item.items() %}
+                 <!-- <th>{{key}}</li>-->
+                  <td>{{value}}</td>
+                  <!--<li>{{value}}</li>-->
+               {% endfor %}
+            </tr>   
+         {% endfor %}  
+      </table>
+   </div>
+
+
+</body>
