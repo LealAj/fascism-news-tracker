@@ -39,7 +39,7 @@ class GetNewsData:
         Returns:
             str: url to make request
         """            
-        return f"https://newsapi.org/v2/top-headlines?country=us&category=politics&pageSize=10&apiKey={self.api_key}"
+        return f"https://newsapi.org/v2/top-headlines?country=us&category=politics&pageSize=60&apiKey={self.api_key}"
     
         
     @property
@@ -99,7 +99,7 @@ class ArticleScorer:
             raise ValueError('Please pass a valid comparison text to use when scoring.')
         
 
-    def calc_scores(self, sort:bool = True) -> dict:
+    def calc_scores(self, write_file_path: Optional[str] = None, sort:bool = True,) -> dict:
         """
         Method to calculate scores of articles by calculating
         cosign similarity between provided text and article info.
@@ -122,7 +122,12 @@ class ArticleScorer:
         
         # sorting if requested
         if sort is True:
-            scored_articles['articles'] = sorted(scored_articles['articles'], key = lambda x: x['sim_score'], reverse = True)
+            scored_articles['articles'] = sorted(scored_articles['articles'], key = lambda x: x['sim_score'], reverse = True)  
+        
+        # implementing file writing
+        if isinstance(write_file_path, str) is True: 
+            with open(write_file_path, 'w') as file_writer: 
+                file_writer.write(str(scored_articles))
                         
         # returning scored json copy
         return scored_articles
@@ -196,13 +201,5 @@ class ArticleScorer:
             text = text.lower().strip().translate(str.maketrans('','', string.punctuation))
             doc_text = self._nlp(text)
             # removing stop words
-            return ' '.join([token.text for token in doc_text if not (token.is_stop) or (token.is_digit)])
-
+            return ' '.join([token.text for token in doc_text if not ((token.is_stop) or (token.is_digit) or (token.is_punct))])
         
-
-def main():
-    pass
-
-if __name__ == '__main__':
-    pass
-
