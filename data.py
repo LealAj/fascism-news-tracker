@@ -3,16 +3,16 @@ This file will define all the data objects
 associated with handling data
 """
 from typing import Optional
-import keyring as kr
+#import keyring as kr
 import requests as rq
 import spacy
 import string
 
 
 class GetNewsData:
-    def __init__(self):
+    def __init__(self, key):
         # lazy loading keyring implementation
-        self._api_key = None
+        self._api_key = key
     
     
     def make_request(self) -> dict:
@@ -39,31 +39,31 @@ class GetNewsData:
         Returns:
             str: url to make request
         """            
-        return f"https://newsapi.org/v2/top-headlines?country=us&category=politics&pageSize=10&apiKey={self.api_key}"
-    
-        
-    @property
-    def api_key(self) -> None:
-        """
-        Property method to call api setter
-        """
-        if self._api_key is None:
-            self._api_key = kr.get_password('OpenNewsAPI', 'api_key')
-        return self._api_key
+        return f"https://newsapi.org/v2/top-headlines?country=us&category=politics&pageSize=30&apiKey={self._api_key}"
     
     
-    @api_key.setter
-    def api_key(self, key:str) -> None:
-        """
-        property method to set API key
+    # @property
+    # def api_key(self) -> None:
+    #     """
+    #     Property method to call api setter
+    #     """
+    #     if self._api_key is None:
+    #         self._api_key = kr.get_password('OpenNewsAPI', 'api_key')
+    #     return self._api_key
+    
+    
+    # @api_key.setter
+    # def api_key(self, key:str) -> None:
+    #     """
+    #     property method to set API key
 
-        Args:
-            key (str): API key retrieved from key ring
-        """
-        if isinstance(str, key) is True:
-            self._api_key = key
-        else:
-            raise ValueError("No API key found on Keyring. Please see README for keyring implementation")
+    #     Args:
+    #         key (str): API key retrieved from key ring
+    #     """
+    #     if isinstance(str, key) is True:
+    #         self._api_key = key
+    #     else:
+    #         raise ValueError("No API key found on Keyring. Please see README for keyring implementation")
 
 
 

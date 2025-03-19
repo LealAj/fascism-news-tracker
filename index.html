@@ -20,7 +20,7 @@
  the entire json out line by line-->
    <div class="article-container" id="article"> 
      <!-- Output the articles in tabular form
-      Set up of table headers befor eiterating through the dict -->
+      Set up of table headers befor iterating through the dict -->
       <table>
          <tr>
             <th scope="col">Source</th>
@@ -28,7 +28,6 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Url</th>
-            <th scope="col">Url to image</th>
             <th scope="col">Published At</th>
             <th scope="col">Content</th>
             <th scope="col">Similarity Score</th>
@@ -36,9 +35,11 @@
          {% for dict_item in articles["articles"] %}
             <tr>
                {% for key, value in dict_item.items() %}
-                 <!-- <th>{{key}}</li>-->
-                  <td>{{value}}</td>
-                  <!--<li>{{value}}</li>-->
+                  <!--Discard the url to image section of data-->
+                  {% if key != "urlToImage"%}   
+                     <td>{{value}}</td>
+                  {% endif %}   
+                  
                {% endfor %}
             </tr>   
          {% endfor %}  
